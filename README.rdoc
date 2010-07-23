@@ -1,8 +1,4 @@
-= fake_arel
-
-* http://github.com/#{github_username}/#{project_name}
-
-== DESCRIPTION:
+== fake_arel -- For the Impatient:
 
 Tired of waiting for Rails 3 and its new super-sweet query interface?  Try fake_arel! 
 
@@ -20,12 +16,12 @@ This should serve as a nice bridge between Rails 2 and Rails 3 apps, and can be 
 
 * Additionally, named_scopes are very similar to Rails 3 relations, in that they are lazily loaded.
 
-<tt>>> Reply.where(:name => "John").class</tt>
-<tt>ActiveRecord::NamedScope::Scope</tt>
+    >> Reply.where(:name => "John").class
+    ActiveRecord::NamedScope::Scope
 
-* Also implemented was to_sql.
-<tt>>> Topic.joins(:replies).limit(1).to_sql</tt>
-<tt>"SELECT \"topics\".* FROM \"topics\"   INNER JOIN \"replies\" ON replies.topic_id = topics.id   LIMIT 1"</tt>
+* Also implemented was <tt>to_sql</tt>. <tt>to_sql</tt> will work on any chained query. 
+    >> Topic.joins(:replies).limit(1).to_sql
+    "SELECT \"topics\".* FROM \"topics\"   INNER JOIN \"replies\" ON replies.topic_id = topics.id   LIMIT 1"
 
 * <tt>named_scope</tt> was modified to include other <tt>named_scope</tt>s, so you can chain them together. 
 
