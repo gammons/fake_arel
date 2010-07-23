@@ -1,0 +1,13 @@
+History.txt
+Manifest.txt
+PostInstall.txt
+README.rdoc
+Rakefile
+lib/fake_arel.rb
+script/console
+script/destroy
+script/generate
+spec/fake_arel_spec.rb
+spec/spec.opts
+spec/spec_helper.rb
+tasks/rspec.rake
