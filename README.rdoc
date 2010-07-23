@@ -1,10 +1,14 @@
-== fake_arel -- For the Impatient:
+== Fake_arel: Rails 3 Query Interface for Rails 2
 
-Tired of waiting for Rails 3 and its new super-sweet query interface?  Try fake_arel! 
+http://github.com/gammons/fake_arel
 
-Fake_arel is a gem that will simulate the new Rails 3 query interface, using named_scopes and a couple small patches to ActiveRecord.
+== DESCRIPTION:
 
-This should serve as a nice bridge between Rails 2 and Rails 3 apps, and can be removed once upgrading your app to rails 3, and everything (hopefully) should still work.
+* Tired of waiting for Rails 3 and its new super-sweet query interface? Try fake_arel!
+
+* Fake_arel is a gem that will simulate the new Rails 3 query interface, using named_scopes and a couple small patches to ActiveRecord.
+
+* This should serve as a nice bridge between Rails 2 and Rails 3 apps, and can be removed once upgrading your app to rails 3, and everything (hopefully) should still work.
 
 == SYNOPSIS:
 
