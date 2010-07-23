@@ -4,23 +4,45 @@
 
 == DESCRIPTION:
 
-FIX (describe your package)
+Tired of waiting for Rails 3 and its new super-sweet query interface?  Try fake_arel! 
 
-== FEATURES/PROBLEMS:
+Fake_arel is a gem that will simulate the new Rails 3 query interface, using named_scopes and a couple small patches to ActiveRecord.
 
-* FIX (list of features or problems)
+This should serve as a nice bridge between Rails 2 and Rails 3 apps, and can be removed once upgrading your app to rails 3, and everything (hopefully) should still work.
 
 == SYNOPSIS:
 
-  FIX (code sample of usage)
+* All the finders described on Pratik's blog have been implemented. (http://m.onkey.org/2010/1/22/active-record-query-interface)
+
+    Reply.where(:id => 1)
+    Reply.select("content,id").where("id > 1").order("id desc").limit(1)
+    Topic.joins(:replies).limit(1)
+
+* Additionally, named_scopes are very similar to Rails 3 relations, in that they are lazily loaded.
+
+<tt>>> Reply.where(:name => "John").class</tt>
+<tt>ActiveRecord::NamedScope::Scope</tt>
+
+* Also implemented was to_sql.
+<tt>>> Topic.joins(:replies).limit(1).to_sql</tt>
+<tt>"SELECT \"topics\".* FROM \"topics\"   INNER JOIN \"replies\" ON replies.topic_id = topics.id   LIMIT 1"</tt>
+
+* <tt>named_scope</tt> was modified to include other <tt>named_scope</tt>s, so you can chain them together. 
+
+    class Reply < ActiveRecord::Base
+      named_scope :by_john, where(:name => "John")
+      named_scope :recent, lambda {|t| where("created_at > ? ", t.minutes.ago) }
+      named_scope :recent_by_john, recent(15).by_john
+    end
+
 
 == REQUIREMENTS:
 
-* FIX (list of requirements)
+* >= ActiveRecord 2.3.5
 
 == INSTALL:
 
-* FIX (sudo gem install, anything else)
+* gem install fake_arel
 
 == LICENSE:
 

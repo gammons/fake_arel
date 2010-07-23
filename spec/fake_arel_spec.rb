@@ -10,6 +10,7 @@ describe "Basics" do
     Reply.where("id = ?", 1).first.id.should == 1
 
     Reply.recent.size.should == 1
+    Reply.recent_limit_1.all.size.should == 1
   end
 
   it "should be able to use where and other named scopes within named scopes" do

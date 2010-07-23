@@ -2,6 +2,7 @@ class Reply < ActiveRecord::Base
   belongs_to :topic, :include => [:replies]
 
   named_scope :recent, where('replies.created_at > ?', 15.minutes.ago)
+  named_scope :recent_limit_1, where('replies.created_at > ?', 15.minutes.ago).limit(1)
 
   named_scope :arel_id, :conditions => "id = 1"
   named_scope :arel_id_with_lambda, lambda {|aid| arel_id}

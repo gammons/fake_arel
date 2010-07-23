@@ -1,7 +1,5 @@
+For more information on fake_arel, see http://github.com/gammons/fake_arel
 
-For more information on fake_arel, see http://fake_arel.rubyforge.org
+Be sure to remove the fake_arel gem once you decide to upgrade to Rails 3.
 
-NOTE: Change this information in PostInstall.txt 
-You can also delete it if you don't want it.
-
-
+Questions?  Comments?  Email grant@pipelinedealsco.com
