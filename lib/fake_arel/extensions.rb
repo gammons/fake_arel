@@ -1,7 +1,7 @@
 module ActiveRecord
   module NamedScope
     module ClassMethods
-      def named_scope_ext(name, options = {}, &block)
+      def named_scope(name, options = {}, &block)
         name = name.to_sym
 
         scopes[name] = lambda do |parent_scope, *args|
@@ -23,21 +23,95 @@ module ActiveRecord
           scopes[name].call(self, *args)
         end
       end
-
-      alias_method :named_scope, :named_scope_ext
     end
+
+    class Scope
+      attr_reader :proxy_scope, :proxy_options, :current_scoped_methods_when_defined
+      [].methods.each do |m|
+        unless m =~ /^__/ || NON_DELEGATE_METHODS.include?(m.to_s)
+          delegate m, :to => :proxy_found
+        end
+      end
+
+      delegate :scopes, :with_scope, :scoped_methods, :to => :proxy_scope
+
+      def initialize(proxy_scope, options = {}, &block)
+        options = options.proxy_options if options.class == ActiveRecord::NamedScope::Scope
+        [options[:extend]].flatten.each { |extension| extend extension } if options[:extend]
+        extend Module.new(&block) if block_given?
+        unless Scope === proxy_scope
+          @current_scoped_methods_when_defined = proxy_scope.send(:current_scoped_methods)
+        end
+        @proxy_scope, @proxy_options = proxy_scope, options.except(:extend)
+      end
+
+      def reload
+        load_found; self
+      end
+
+      def first(*args)
+        if args.first.kind_of?(Integer) || (@found && !args.first.kind_of?(Hash))
+          proxy_found.first(*args)
+        else
+          find(:first, *args)
+        end
+      end
+
+      def last(*args)
+        if args.first.kind_of?(Integer) || (@found && !args.first.kind_of?(Hash))
+          proxy_found.last(*args)
+        else
+          find(:last, *args)
+        end
+      end
+
+      def size
+        @found ? @found.length : count
+      end
+
+      def empty?
+        @found ? @found.empty? : count.zero?
+      end
+
+      def respond_to?(method, include_private = false)
+        super || @proxy_scope.respond_to?(method, include_private)
+      end
+
+      def any?
+        if block_given?
+          proxy_found.any? { |*block_args| yield(*block_args) }
+        else
+          !empty?
+        end
+      end
+
+      protected
+      def proxy_found
+        @found || load_found
+      end
+
+      private
+      def method_missing(method, *args, &block)
+        if scopes.include?(method)
+          scopes[method].call(self, *args)
+        else
+          with_scope({:find => proxy_options, :create => proxy_options[:conditions].is_a?(Hash) ?  proxy_options[:conditions] : {}}, :reverse_merge) do
+            method = :new if method == :build
+            if current_scoped_methods_when_defined && !scoped_methods.include?(current_scoped_methods_when_defined)
+              with_scope current_scoped_methods_when_defined do
+                proxy_scope.send(method, *args, &block)
+              end
+            else
+              proxy_scope.send(method, *args, &block)
+            end
+          end
+        end
+      end
+
+      def load_found
+        @found = find(:all)
+      end
+    end
+
   end
 end
-
-module NamedScopeExtensions
-  def self.included(base)
-    base.extend ClassMethods
-  end
-
-  module ClassMethods
-    def named_scope_ext(name, options = {}, &block)
-      p "GDA CALLING SCOPE"
-    end
-  end
-end
-
