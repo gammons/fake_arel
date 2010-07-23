@@ -1,5 +1,0 @@
-For more information on fake_arel, see http://github.com/gammons/fake_arel
-
-Be sure to remove the fake_arel gem once you decide to upgrade to Rails 3.
-
-Questions?  Comments?  Email grant@pipelinedealsco.com
