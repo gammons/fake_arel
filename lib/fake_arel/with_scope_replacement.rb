@@ -1,12 +1,3 @@
-module ActiveRecord
-  class Base
-
-    def self.grant_scope_2
-      p "BANGO"
-    end
-  end
-end
-
 module WithScopeReplacement
   def self.included(base)
     base.class_eval do
