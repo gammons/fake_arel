@@ -34,12 +34,21 @@ describe "Basics" do
   end
 
   it "should work with scope and with exclusive scope" do
-    Reply.find_all_but_first.map(&:id).should == [2,3,4,5]
+    Reply.find_all_but_first.map(&:id).should == [2,3,4,5,6]
   end
 end
 
 describe "to sql" do
   it "should be able to output sql" do
     Topic.joins(:replies).limit(1).to_sql
+  end
+end
+
+describe "chained nested named scopes" do
+  it "should be able to chain named scopes within a named_scope" do
+    Reply.recent_with_content_like_ar.should == Reply.find(:all, :conditions => "id = 5")
+    Reply.recent_with_content_like_ar_and_id_4.should == []
+    Reply.recent_joins_topic.topic_title_is("ActiveRecord").first.should == Reply.find(5)
+    Reply.recent_joins_topic.topic_title_is("Nothin").first.should == nil
   end
 end

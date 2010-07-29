@@ -27,3 +27,9 @@ brave:
   topic_id: 4
   content: "AR doesn't scare me a bit"
   created_at: <%= 10.minutes.ago.to_s(:db) %>
+
+thang:
+  id: 6
+  topic_id: 4
+  content: "AR This is some more content"
+  created_at: <%= 10.hours.ago.to_s(:db) %>
