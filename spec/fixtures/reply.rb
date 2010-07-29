@@ -8,6 +8,9 @@ class Reply < ActiveRecord::Base
   named_scope :recent_joins_topic, recent.joins(:topic)
   named_scope :topic_title_is, lambda {|topic_title| where("topics.title like ?", topic_title + "%") }
 
+  named_scope :join_topic_and_author, joins(:topic => [:author])
+  named_scope :filter_join_topic_and_author, joins(:topic => [:author]).where('lower(replies.content) like ?','AR%')
+
   named_scope :arel_id, :conditions => "id = 1"
   named_scope :arel_id_with_lambda, lambda {|aid| arel_id}
   named_scope :arel_id_with_nested_lambda, lambda {|aid| arel_id_with_lambda(aid)}

@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/spec_helper.rb'
 require 'reply'
 require 'topic'
-
+require 'author'
 
 describe "Basics" do
   it "should accomplish basic where" do
@@ -50,5 +50,9 @@ describe "chained nested named scopes" do
     Reply.recent_with_content_like_ar_and_id_4.should == []
     Reply.recent_joins_topic.topic_title_is("ActiveRecord").first.should == Reply.find(5)
     Reply.recent_joins_topic.topic_title_is("Nothin").first.should == nil
+  end
+
+  it "should be able to join multiple items" do
+    Reply.filter_join_topic_and_author.first.topic.author
   end
 end

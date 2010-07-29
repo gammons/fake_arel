@@ -1,6 +1,6 @@
 ActiveRecord::Schema.define do
   create_table "topics", :force => true do |t|
-    t.column "project_id", :integer
+    t.column "author_id", :integer
     t.column "title",      :string
     t.column "subtitle",   :string
     t.column "content",    :text
@@ -13,5 +13,11 @@ ActiveRecord::Schema.define do
     t.column "created_at", :datetime
     t.column "updated_at", :datetime
     t.column "topic_id",   :integer
+  end
+
+  create_table "authors", :force => true do |t|
+    t.column "name",    :string
+    t.column "created_at", :datetime
+    t.column "updated_at", :datetime
   end
 end

@@ -1,5 +1,6 @@
 futurama:
   id: 1
+  author_id: 1
   title: Isnt futurama awesome?
   subtitle: It really is, isnt it.
   content: I like futurama
@@ -8,6 +9,7 @@ futurama:
   
 harvey_birdman:
   id: 2
+  author_id: 1
   title: Harvey Birdman is the king of all men
   subtitle: yup
   content: He really is
@@ -16,7 +18,7 @@ harvey_birdman:
 
 rails:
   id: 3
-  project_id: 1
+  author_id: 1
   title: Rails is nice
   subtitle: It makes me happy
   content: except when I have to hack internals to fix pagination. even then really.
@@ -24,7 +26,7 @@ rails:
 
 ar:
   id: 4
-  project_id: 1
+  author_id: 1
   title: ActiveRecord sometimes freaks me out
   content: "I mean, what's the deal with eager loading?"
   created_at: <%= 15.minutes.ago.to_s(:db) %>

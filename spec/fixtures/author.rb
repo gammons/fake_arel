@@ -1,6 +1,5 @@
-class Topic < ActiveRecord::Base
-  has_many :replies, :dependent => :destroy, :order => 'replies.created_at DESC'
-  belongs_to :author
+class Author < ActiveRecord::Base
+  has_many :topics
 
   named_scope :mentions_activerecord, :conditions => ['topics.title LIKE ?', '%ActiveRecord%']
   
