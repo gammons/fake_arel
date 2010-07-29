@@ -53,6 +53,7 @@ describe "chained nested named scopes" do
   end
 
   it "should be able to join multiple items" do
-    Reply.filter_join_topic_and_author.first.topic.author
+    Reply.filter_join_topic_and_author.all.should == Reply.find(:all, :conditions => "id in (5,6)")
+    Reply.filter_join_topic_and_author.recent_with_content_like_ar.all.should == Reply.find(:all, :conditions => "id = 5")
   end
 end
