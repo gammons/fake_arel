@@ -56,4 +56,11 @@ describe "chained nested named scopes" do
     Reply.filter_join_topic_and_author.all.should == Reply.find(:all, :conditions => "id in (5,6)")
     Reply.filter_join_topic_and_author.recent_with_content_like_ar.all.should == Reply.find(:all, :conditions => "id = 5")
   end
+
+end
+
+describe "keep scoped functionality" do
+  it "should respond to scoped" do
+    Reply.scoped.class.should == ActiveRecord::NamedScope::Scope
+  end
 end

@@ -45,6 +45,7 @@ module ActiveRecord
       delegate :scopes, :with_scope, :scoped_methods, :to => :proxy_scope
 
       def initialize(proxy_scope, options = {}, &block)
+        options ||= {}
         options = options.proxy_options if options.class == ActiveRecord::NamedScope::Scope
         [options[:extend]].flatten.each { |extension| extend extension } if options[:extend]
         extend Module.new(&block) if block_given?
