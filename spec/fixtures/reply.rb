@@ -14,6 +14,11 @@ class Reply < ActiveRecord::Base
   named_scope :arel_id, :conditions => "id = 1"
   named_scope :arel_id_with_lambda, lambda {|aid| arel_id}
   named_scope :arel_id_with_nested_lambda, lambda {|aid| arel_id_with_lambda(aid)}
+
+  named_scope :id_asc, order('id asc')
+  named_scope :id_desc, order('id desc')
+  named_scope :topic_4_id_asc, id_asc.where(:topic_id => 4)
+  named_scope :topic_4_id_desc, id_desc.where(:topic_id => 4)
   
   validates_presence_of :content
 

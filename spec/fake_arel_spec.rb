@@ -63,6 +63,10 @@ describe "chained nested named scopes" do
     replies[0].attributes.should == {"id" => 5}
   end
 
+  it "should properly chain order scope in definitions" do
+    Reply.topic_4_id_asc.all.should == Reply.find(:all, :conditions => {:topic_id => 4}, :order=>'id asc')
+    Reply.topic_4_id_desc.all.should == Reply.find(:all, :conditions => {:topic_id => 4}, :order=>'id desc')
+  end
 end
 
 describe "keep scoped functionality" do
