@@ -57,6 +57,12 @@ describe "chained nested named scopes" do
     Reply.filter_join_topic_and_author.recent_with_content_like_ar.all.should == Reply.find(:all, :conditions => "id = 5")
   end
 
+  it "should be able to take a select after a where" do
+    replies = Reply.where("id = 5").select(:id).all
+    replies.size.should == 1
+    replies[0].attributes.should == {"id" => 5}
+  end
+
 end
 
 describe "keep scoped functionality" do

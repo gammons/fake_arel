@@ -36,8 +36,9 @@ module ActiveRecord
 
     class Scope
       attr_reader :proxy_scope, :proxy_options, :current_scoped_methods_when_defined
+      undef select
       [].methods.each do |m|
-        unless m =~ /^__/ || NON_DELEGATE_METHODS.include?(m.to_s)
+        unless m =~ /^__/ || (NON_DELEGATE_METHODS + ['select']).include?(m.to_s)
           delegate m, :to => :proxy_found
         end
       end
