@@ -81,6 +81,6 @@ end
 
 describe "keep scoped functionality" do
   it "should respond to scoped" do
-    Reply.scoped.class.should == ActiveRecord::NamedScope::Scope
+    Reply.scoped({}).class.should == ActiveRecord::NamedScope::Scope
   end
 end
