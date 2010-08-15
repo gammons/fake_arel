@@ -67,6 +67,16 @@ describe "chained nested named scopes" do
     Reply.topic_4_id_asc.all.should == Reply.find(:all, :conditions => {:topic_id => 4}, :order=>'id asc')
     Reply.topic_4_id_desc.all.should == Reply.find(:all, :conditions => {:topic_id => 4}, :order=>'id desc')
   end
+
+  it "should properly chain scope in definitions by lambda" do
+    Reply.recent_topic_id(4).all.should == Reply.find_all_by_id(5)
+  end
+    
+  it "should properly chain order scope in definitions by lambda" do
+    Reply.topic_id_asc(4).all.should == Reply.find(:all, :conditions => {:topic_id => 4}, :order=>'id asc')
+    Reply.order('id desc').topic_id(4).all.should == Reply.find(:all, :conditions => {:topic_id => 4}, :order=>'id desc')
+    Reply.topic_id_desc(4).all.should == Reply.find(:all, :conditions => {:topic_id => 4}, :order=>'id desc')
+  end
 end
 
 describe "keep scoped functionality" do

@@ -9,23 +9,15 @@ module ActiveRecord
             when Hash
               options
             when Scope
-              # unspin the scope and generate a hash
-              local_scope = options.proxy_scope
-              ret = options.proxy_options
-              while local_scope.class == ActiveRecord::NamedScope::Scope
-                ret[:conditions] = merge_conditions(ret[:conditions], local_scope.proxy_options[:conditions])
-                ret[:includes] = merge_includes(ret[:includes], local_scope.proxy_options[:includes]) if ret[:includes] || local_scope.proxy_options[:includes]
-                ret[:joins] = merge_includes(ret[:joins], local_scope.proxy_options[:joins])
-                ret[:order] = merge_includes(ret[:order], local_scope.proxy_options[:order]) if ret[:order] || local_scope.proxy_options[:order]
-                local_scope = local_scope.proxy_scope
-              end
-              ret
+              unspin_scope(options)
             when Proc
-              if self.model_name != parent_scope.model_name
+              res = if self.model_name != parent_scope.model_name
                 options.bind(parent_scope).call(*args)
               else
                 options.call(*args)
               end
+              res = unspin_scope(res) if Scope === res
+              res
           end, &block)
         end
 
@@ -33,6 +25,21 @@ module ActiveRecord
           scopes[name].call(self, *args)
         end
       end
+      
+      private
+        def unspin_scope(scope)
+          # unspin the scope and generate a hash
+          local_scope = scope.proxy_scope
+          ret = scope.proxy_options
+          while local_scope.class == ActiveRecord::NamedScope::Scope
+            ret[:conditions] = merge_conditions(ret[:conditions], local_scope.proxy_options[:conditions])
+            ret[:includes] = merge_includes(ret[:includes], local_scope.proxy_options[:includes]) if ret[:includes] || local_scope.proxy_options[:includes]
+            ret[:joins] = merge_includes(ret[:joins], local_scope.proxy_options[:joins])
+            ret[:order] = merge_includes(ret[:order], local_scope.proxy_options[:order]) if ret[:order] || local_scope.proxy_options[:order]
+            local_scope = local_scope.proxy_scope
+          end
+          ret
+        end
     end
 
     class Scope
