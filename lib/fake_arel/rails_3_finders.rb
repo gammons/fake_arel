@@ -7,8 +7,8 @@ module Rails3Finders
       named_scope :offset, lambda {|offset| {:offset => offset}}
       named_scope :limit, lambda {|limit| {:limit => limit}}
       named_scope :includes, lambda { |*includes| { :include => includes }}
-      named_scope :select, lambda {|*select| {:select => select }}
-      named_scope :order, lambda {|order| {:order => order }}
+      named_scope :select, lambda {|*select| {:select => select.join(',') }}
+      named_scope :order, lambda {|*order| {:order => order.join(',') }}
       named_scope :joins, lambda {|*join| {:joins => join }}
       named_scope :from, lambda {|*from| {:from => from }}
       named_scope :having, lambda {|*having| {:having => having }}
