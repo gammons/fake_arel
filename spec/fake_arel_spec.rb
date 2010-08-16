@@ -73,9 +73,24 @@ describe "chained nested named scopes" do
   end
     
   it "should properly chain order scope in definitions by lambda" do
-    Reply.topic_id_asc(4).all.should == Reply.find(:all, :conditions => {:topic_id => 4}, :order=>'id asc')
+    Reply.topic__id_asc(4).all.should == Reply.find(:all, :conditions => {:topic_id => 4}, :order=>'id asc')
     Reply.order('id desc').topic_id(4).all.should == Reply.find(:all, :conditions => {:topic_id => 4}, :order=>'id desc')
-    Reply.topic_id_desc(4).all.should == Reply.find(:all, :conditions => {:topic_id => 4}, :order=>'id desc')
+    Reply.topic__id_desc(4).all.should == Reply.find(:all, :conditions => {:topic_id => 4}, :order=>'id desc')
+  end
+  
+  it "should chain order scopes" do
+    # see https://rails.lighthouseapp.com/projects/8994/tickets/2810-with_scope-should-accept-and-use-order-option
+    # it works now in reverse order to comply with ActiveRecord 3
+    Reply.order('topic_id asc').order('created_at desc').all.should == Reply.find(:all, :order=>'topic_id asc, created_at desc')
+    Reply.order('topic_id asc').id_desc.all.should == Reply.find(:all, :order=>'topic_id asc, id desc')
+    Reply.topic_id_asc.id_desc.all.should == Reply.find(:all, :order=>'topic_id asc, id desc')
+    Reply.topic_id_asc_id_desc.all.should == Reply.find(:all, :order=>'topic_id asc, id desc')
+    Reply.lam_topic_id_asc_id_desc.all.should == Reply.find(:all, :order=>'topic_id asc, id desc')
+    Reply.with_scope(:find=>{:order=>'topic_id asc'}) do
+      Reply.with_scope(:find=>{:order=>'created_at desc'}) do
+        Reply.all
+      end
+    end.should == Reply.find(:all, :order=>'created_at desc, topic_id asc')
   end
 end
 
