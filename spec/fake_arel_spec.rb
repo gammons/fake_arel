@@ -48,7 +48,7 @@ describe "chained nested named scopes" do
   it "should be able to chain named scopes within a named_scope" do
     Reply.recent_with_content_like_ar.should == Reply.find(:all, :conditions => "id = 5")
     Reply.recent_with_content_like_ar_and_id_4.should == []
-    Reply.recent_joins_topic.topic_title_is("ActiveRecord").first.should == Reply.find(5)
+    Reply.recent_joins_topic.topic_title_is("ActiveRecord").first.should == Reply.find(4)
     Reply.recent_joins_topic.topic_title_is("Nothin").first.should == nil
   end
 
@@ -99,3 +99,28 @@ describe "keep scoped functionality" do
     Reply.scoped({}).class.should == ActiveRecord::NamedScope::Scope
   end
 end
+
+describe "not generate redundant queries" do
+  # Github issue #8, fake_arel was adding conditions over and over
+  # to a names scope.
+  it "should not add a billion parens and conditions" do
+    pass_1 = Reply.recent.to_sql
+    pass_2 = Reply.recent.to_sql
+    pass_3 = Reply.recent.to_sql
+    pass_1.should == pass_2
+    pass_2.should == pass_3
+
+    pass1 = Reply.filter_join_topic_and_author.to_sql
+    pass2 = Reply.filter_join_topic_and_author.to_sql
+    pass3 = Reply.filter_join_topic_and_author.to_sql
+    pass_1.should == pass_2
+    pass_2.should == pass_3
+
+    pass1 = Reply.recent_joins_topic.topic_title_is('Nothin').to_sql
+    pass2 = Reply.recent_joins_topic.topic_title_is('Nothin').to_sql
+    pass3 = Reply.recent_joins_topic.topic_title_is('Nothin').to_sql
+    pass_1.should == pass_2
+    pass_2.should == pass_3
+  end
+end
+
