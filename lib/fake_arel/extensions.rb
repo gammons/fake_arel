@@ -34,8 +34,12 @@ module ActiveRecord
         ret = proxy_options
         while local_scope.class == ActiveRecord::NamedScope::Scope
           local_conditions = merge_conditions(local_scope.proxy_options[:conditions])
-          if local_conditions and ret[:conditions] and not ret[:conditions].index local_conditions
-            ret[:conditions] = merge_conditions(ret[:conditions], local_scope.proxy_options[:conditions])
+          if local_conditions && ret[:conditions]
+            if !ret[:conditions].index(local_conditions)
+              ret[:conditions] = merge_conditions(ret[:conditions], local_scope.proxy_options[:conditions])
+            end
+          elsif local_conditions
+            ret[:conditions] = local_conditions
           end
           ret[:includes] = merge_includes(ret[:includes], local_scope.proxy_options[:includes]) if ret[:includes] || local_scope.proxy_options[:includes]
           ret[:joins] = merge_includes(ret[:joins], local_scope.proxy_options[:joins])

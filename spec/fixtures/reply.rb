@@ -24,6 +24,9 @@ class Reply < ActiveRecord::Base
   named_scope :recent_topic_id, lambda{|topic_id| recent.where(:topic_id => topic_id)}
   named_scope :topic__id_asc, lambda{|topic_id| id_asc.where(:topic_id => topic_id)}
   named_scope :topic__id_desc, lambda{|topic_id| id_desc.where(:topic_id => topic_id)}
+  named_scope :topic__id_desc1, lambda{|topic_id| where(:topic_id => topic_id).id_desc}
+  named_scope :topic__id_desc2, lambda{|topic_id| order('id desc').where(:topic_id => topic_id)}
+  named_scope :topic__id_desc3, lambda{|topic_id| where(:topic_id => topic_id).order('id desc')}
   named_scope :topic_id_asc, order('topic_id asc')
   named_scope :topic_id_asc_id_desc, order('topic_id asc').id_desc
   named_scope :lam_topic_id_asc_id_desc, lambda{ topic_id_asc.id_desc }

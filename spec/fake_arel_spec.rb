@@ -48,7 +48,7 @@ describe "chained nested named scopes" do
   it "should be able to chain named scopes within a named_scope" do
     Reply.recent_with_content_like_ar.should == Reply.find(:all, :conditions => "id = 5")
     Reply.recent_with_content_like_ar_and_id_4.should == []
-    Reply.recent_joins_topic.topic_title_is("ActiveRecord").first.should == Reply.find(4)
+    Reply.recent_joins_topic.topic_title_is("ActiveRecord").first.should == Reply.find(5)
     Reply.recent_joins_topic.topic_title_is("Nothin").first.should == nil
   end
 
@@ -75,7 +75,11 @@ describe "chained nested named scopes" do
   it "should properly chain order scope in definitions by lambda" do
     Reply.topic__id_asc(4).all.should == Reply.find(:all, :conditions => {:topic_id => 4}, :order=>'id asc')
     Reply.order('id desc').topic_id(4).all.should == Reply.find(:all, :conditions => {:topic_id => 4}, :order=>'id desc')
-    Reply.topic__id_desc(4).all.should == Reply.find(:all, :conditions => {:topic_id => 4}, :order=>'id desc')
+    topic_4_id_desc = Reply.find(:all, :conditions => {:topic_id => 4}, :order=>'id desc')
+    Reply.topic__id_desc(4).all.should == topic_4_id_desc
+    Reply.topic__id_desc1(4).all.should == topic_4_id_desc
+    Reply.topic__id_desc2(4).all.should == topic_4_id_desc
+    Reply.topic__id_desc3(4).all.should == topic_4_id_desc
   end
   
   it "should chain order scopes" do
