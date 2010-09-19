@@ -42,7 +42,7 @@ module ActiveRecord
             ret[:conditions] = local_conditions
           end
           ret[:includes] = merge_includes(ret[:includes], local_scope.proxy_options[:includes]) if ret[:includes] || local_scope.proxy_options[:includes]
-          ret[:joins] = merge_includes(ret[:joins], local_scope.proxy_options[:joins])
+          ret[:joins] = merge_joins(ret[:joins], local_scope.proxy_options[:joins]) if ret[:joins] || local_scope.proxy_options[:joins]
           ret[:order] = [local_scope.proxy_options[:order], ret[:order]].select{|o| !o.blank?}.join(',') if ret[:order] || local_scope.proxy_options[:order]
           local_scope = local_scope.proxy_scope
         end

@@ -96,6 +96,14 @@ describe "chained nested named scopes" do
       end
     end.should == Reply.find(:all, :order=>'created_at desc, topic_id asc')
   end
+  
+  it "should chain string join scope" do
+    lambda {
+      Topic.join_replies_by_string_and_author.all
+      Topic.join_replies_by_string_and_author_lambda.all
+    }.should_not raise_error
+  end
+  
 end
 
 describe "keep scoped functionality" do
