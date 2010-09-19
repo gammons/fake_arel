@@ -104,6 +104,26 @@ describe "chained nested named scopes" do
     }.should_not raise_error
   end
   
+  it "should properly chain with includes" do
+    topics = nil
+    lambda {
+      topics = Topic.mentions_activerecord_with_replies.all
+    }.should_not raise_error
+    topics.each {|topic|
+      topic.replies.loaded?.should be_true
+    }
+  end
+
+  it "should properly chain with includes in lambda" do
+    topics = nil
+    lambda {
+      topics = Topic.by_title_with_replies('%ActiveRecord%').all
+    }.should_not raise_error
+    topics.each {|topic|
+      topic.replies.loaded?.should be_true
+    }
+  end
+  
 end
 
 describe "keep scoped functionality" do

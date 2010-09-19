@@ -8,6 +8,9 @@ class Topic < ActiveRecord::Base
     { :conditions => "replies.content LIKE '#{text}%' ", :include  => :replies }
   }
   
+  named_scope :mentions_activerecord_with_replies, includes(:replies).mentions_activerecord
+  named_scope :by_title_with_replies, lambda {|title| includes(:replies).where('topics.title like ?', title) }
+  
   named_scope :join_replies_by_string, joins('inner join replies on topics.id = replies.topic_id')
   named_scope :join_replies_by_string_and_author, join_replies_by_string.joins(:author)
   named_scope :join_replies_by_string_and_author_lambda, join_replies_by_string.joins(:author)
