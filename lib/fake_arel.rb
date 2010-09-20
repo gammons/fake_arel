@@ -8,7 +8,7 @@ require 'fake_arel/with_scope_replacement'
 require 'fake_arel/rails_3_finders'
 
 module FakeArel
-  VERSION = '0.6'
+  VERSION = '0.8'
   ActiveRecord::Base.send :include, Rails3Finders
   ActiveRecord::Base.send :include, WithScopeReplacement
 end

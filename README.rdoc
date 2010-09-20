@@ -44,6 +44,11 @@ http://github.com/gammons/fake_arel
 
 * gem install fake_arel
 
+== AUTHORS:
+
+* Grant Ammons
+* Sokolov Yura
+
 == LICENSE:
 
 (The MIT License)
