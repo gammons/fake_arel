@@ -3,7 +3,7 @@ require 'reply'
 require 'topic'
 require 'author'
 
-describe "Basics" do
+describe "Fake Arel" do
   it "should accomplish basic where" do
     Reply.where(:id => 1).first.id.should == 1
     Reply.where("id = 1").first.id.should == 1
@@ -36,15 +36,11 @@ describe "Basics" do
   it "should work with scope and with exclusive scope" do
     Reply.find_all_but_first.map(&:id).should == [2,3,4,5,6]
   end
-end
 
-describe "to sql" do
   it "should be able to output sql" do
     Topic.joins(:replies).limit(1).to_sql
   end
-end
 
-describe "chained nested named scopes" do
   it "should be able to chain named scopes within a named_scope" do
     Reply.recent_with_content_like_ar.should == Reply.find(:all, :conditions => "id = 5")
     Reply.recent_with_content_like_ar_and_id_4.should == []
@@ -123,16 +119,11 @@ describe "chained nested named scopes" do
       topic.replies.loaded?.should be_true
     }
   end
-  
-end
 
-describe "keep scoped functionality" do
   it "should respond to scoped" do
     Reply.scoped({}).class.should == ActiveRecord::NamedScope::Scope
   end
-end
 
-describe "not generate redundant queries" do
   # Github issue #8, fake_arel was adding conditions over and over
   # to a names scope.
   it "should not add a billion parens and conditions" do
@@ -153,6 +144,23 @@ describe "not generate redundant queries" do
     pass3 = Reply.recent_joins_topic.topic_title_is('Nothin').to_sql
     pass_1.should == pass_2
     pass_2.should == pass_3
+  end
+
+  it "should be able to combine named scopes with or" do
+    q1 = Reply.where(:id => 1)
+    q2 = Reply.where(:id => 2)
+    q3 = Reply.where(:id => 3)
+    q4 = Reply.where(:id => 4)
+    Reply.or(q1,q2).all.map(&:id).should == [1,2]
+    Reply.or(q1,q2,q3).all.map(&:id).should == [1,2,3]
+
+    # here's something crazy
+    or1 = Reply.or(q1,q2)
+    or2 = Reply.or(q3,q4)
+    Reply.or(or1,or2).all.map(&:id).should == [1,2,3,4]
+
+    # an example using joins, as well as a query that returns nothing
+    Reply.or(Reply.recent_joins_topic, Reply.topic_title_is("Nothin")).all.map(&:id).should == [5]
   end
 end
 

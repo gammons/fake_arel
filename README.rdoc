@@ -35,6 +35,22 @@ http://github.com/gammons/fake_arel
       named_scope :recent_by_john, recent(15).by_john
     end
 
+=== Recently Added!
+
+* <tt>or</tt> syntax. Because named scopes load lazily, we're able to pass the scope to another scope, in this case, <tr>or</tr>.
+
+    q1 = Reply.where(:id => 1)
+    q2 = Reply.where(:id => 2)
+    q3 = Reply.where(:id => 3)
+    q4 = Reply.where(:id => 4)
+
+    Reply.or(q1,q2).all.map(&:id)  # equals [1,2]
+    Reply.or(q1,q2,q3).all.map(&:id) # equals [1,2,3]
+
+    or1 = Reply.or(q1,q2)
+    or2 = Reply.or(q3,q4)
+    Reply.or(or1,or2).all.map(&:id) # equals [1,2,3,4]
+
 
 == REQUIREMENTS:
 
