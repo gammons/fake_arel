@@ -38,7 +38,19 @@ describe "Fake Arel" do
   end
 
   it "should be able to output sql" do
-    Topic.joins(:replies).limit(1).to_sql
+    sql = Topic.select('content').joins(:replies).limit(1).order('id desc').where(:author_id => 1).to_sql
+    sql.should =~ /SELECT content/i
+    sql.should =~ /JOIN "replies"/i
+    sql.should =~ /"author_id" = 1/
+    sql.should =~ /LIMIT 1/i
+    sql.should =~ /ORDER BY id desc/i
+    sql = Reply.topic_4_id_desc.to_sql
+    sql.should =~ /"topic_id" = 4/
+    sql.should =~ /ORDER BY id desc/i
+  end
+  it "should not dublication conditions" do
+    sql = Topic.select('content').joins(:replies).limit(1).order('id desc').where(:author_id => 1).to_sql
+    sql.should_not =~ /"author_id" = 1.+"author_id" = 1/
   end
 
   it "should be able to chain named scopes within a named_scope" do

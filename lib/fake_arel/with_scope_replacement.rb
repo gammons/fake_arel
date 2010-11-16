@@ -3,7 +3,7 @@ module WithScopeReplacement
     base.class_eval do
       class << self
         def to_sql
-          construct_finder_sql self.current_scoped_methods[:find]
+          construct_finder_sql({})
         end
         
         def with_scope(method_scoping = {}, action = :merge, &block)
