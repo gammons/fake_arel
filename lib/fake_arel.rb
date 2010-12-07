@@ -6,6 +6,7 @@ require 'fake_arel/singleton_class'
 require 'fake_arel/extensions'
 require 'fake_arel/with_scope_replacement'
 require 'fake_arel/rails_3_finders'
+require 'fake_arel/calculations'
 
 module FakeArel
   VERSION = '0.9'

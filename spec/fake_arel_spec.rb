@@ -176,3 +176,11 @@ describe "Fake Arel" do
   end
 end
 
+describe "NameScope bug" do
+	context "group named_scope" do
+		it "should be equal to count(:group => '')" do
+		  Reply.group('replies.topic_id').count.should == Reply.count(:group => 'replies.topic_id')
+		end
+	end
+end
+
