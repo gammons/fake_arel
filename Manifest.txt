@@ -1,9 +1,12 @@
+Gemfile
+Gemfile.lock
 History.txt
 Manifest.txt
 README.rdoc
 Rakefile
 fake_arel.gemspec
 lib/fake_arel.rb
+lib/fake_arel/calculations.rb
 lib/fake_arel/extensions.rb
 lib/fake_arel/rails_3_finders.rb
 lib/fake_arel/singleton_class.rb
@@ -12,6 +15,8 @@ script/console
 script/destroy
 script/generate
 spec/fake_arel_spec.rb
+spec/fixtures/author.rb
+spec/fixtures/authors.yml
 spec/fixtures/replies.yml
 spec/fixtures/reply.rb
 spec/fixtures/schema.rb
