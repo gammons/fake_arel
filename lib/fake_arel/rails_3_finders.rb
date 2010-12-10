@@ -7,7 +7,6 @@ module Rails3Finders
       named_scope :offset, lambda {|offset| {:offset => offset}}
       named_scope :limit, lambda {|limit| {:limit => limit}}
       named_scope :includes, lambda { |*includes| { :include => includes }}
-      named_scope :select, lambda {|*select| {:select => select.join(',') }}
       named_scope :order, lambda {|*order| {:order => order.join(',') }}
       named_scope :joins, lambda {|*join| {:joins => join } if join[0]}
       named_scope :from, lambda {|*from| {:from => from }}
@@ -15,6 +14,14 @@ module Rails3Finders
       named_scope :group, lambda {|*group| {:group => group }}
       named_scope :readonly, lambda {|readonly| {:readonly => readonly }}
       named_scope :lock, lambda {|lock| {:lock => lock }}
+
+      def self.select(value = Proc.new)
+        if block_given?
+          all.select {|*block_args| value.call(*block_args) }
+        else
+          self.scoped(:select => Array.wrap(value).join(','))
+        end
+      end
 
       __where_fn = lambda do |*where|
         if where.is_a?(Array) and where.size == 1
