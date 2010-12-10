@@ -174,13 +174,20 @@ describe "Fake Arel" do
     # an example using joins, as well as a query that returns nothing
     Reply.or(Reply.recent_joins_topic, Reply.topic_title_is("Nothin")).all.map(&:id).should == [5]
   end
+
+  it "should use select like rails 3 uses select" do
+    lambda { Reply.all.select {|r| r.id == 1 }}.should_not raise_error
+    Reply.all.select {|r| r.id == 1 }.size.should == 1
+    Reply.all.select {|r| r.id == 1 }.first.id.should == 1
+    lambda { Reply.select(:id).first.content }.should raise_error(ActiveRecord::MissingAttributeError)
+  end
 end
 
 describe "NameScope bug" do
-	context "group named_scope" do
-		it "should be equal to count(:group => '')" do
-		  Reply.group('replies.topic_id').count.should == Reply.count(:group => 'replies.topic_id')
-		end
-	end
+  context "group named_scope" do
+    it "should be equal to count(:group => '')" do
+      Reply.group('replies.topic_id').count.should == Reply.count(:group => 'replies.topic_id')
+    end
+  end
 end
 
