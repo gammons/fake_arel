@@ -13,9 +13,9 @@ Gem::Specification.new do |s|
   s.homepage    = "http://github.com/gammons/fake_arel"
   s.summary     = "A library that simulates Rails 3 ActiveRecord Arel calls using extensions to named_scope."
  
-  s.add_dependency(['activerecord','>=2.3.5'])
-  s.rubyforge_project 'fake_arel'
+  s.add_dependency('activerecord', '~>2.3.5')
+  s.rubyforge_project = 'fake_arel'
  
-  s.files        = Dir.glob("{bin,lib}/**/*") + %w(LICENSE README.md ROADMAP.md CHANGELOG.md)
+  s.files        = Dir.glob("{bin,lib}/**/*")
   s.require_path = 'lib'
 end
