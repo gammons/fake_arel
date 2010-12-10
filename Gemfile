@@ -6,6 +6,7 @@ gem "activerecord", "2.3.5"
 group :development do
   gem 'rspec', '1.3.1'
   gem "sqlite3-ruby"
+  gem 'newgem'
   gem 'rake'
   gem 'hoe'
   gem 'ruby-debug'
