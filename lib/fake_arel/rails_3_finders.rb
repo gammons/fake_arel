@@ -45,7 +45,8 @@ module Rails3Finders
           begin
             where << merge_conditions(s[:conditions])
           rescue NoMethodError
-            where << scopes[0].first.class.merge_conditions(s[:conditions])
+            # I am ActiveRecord::Base. Only my subclasses define merge_conditions:
+            where << subclasses.first.merge_conditions(s[:conditions])
           end
           #where << merge_conditions(s[:conditions])
           joins << s[:joins] unless s[:joins].nil?

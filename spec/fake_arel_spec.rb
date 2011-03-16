@@ -174,6 +174,12 @@ describe "Fake Arel" do
     # an example using joins, as well as a query that returns nothing
     Reply.or(Reply.recent_joins_topic, Reply.topic_title_is("Nothin")).all.map(&:id).should == [5]
   end
+  
+  it 'should be able to combine with "or", an empty named scope with another non-empty one' do
+    q1 = Reply.where(:id => 0)
+    q2 = Reply.where(:id => 2)
+    Reply.or(q1,q2).all.map(&:id).should == [2]
+  end
 
   it "should use select like rails 3 uses select" do
     lambda { Reply.all.select {|r| r.id == 1 }}.should_not raise_error
