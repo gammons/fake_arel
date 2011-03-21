@@ -193,13 +193,23 @@ describe "Fake Arel" do
 
     count = 0
     entries = []
-    Reply.where("content LIKE('This is reply number%')").find_each(:batch_size => 5) do |reply|
+    Reply.where("content LIKE('This is reply number%')").fakearel_find_each(:batch_size => 5) do |reply|
       count += 1
       reply.class.should == Reply
       entries << reply
     end
     count.should == 10
     entries.should == Reply.where("content LIKE('This is reply number%')")
+
+    entries = []
+    Reply.order("id desc").fakearel_find_each(:batch_size => 5) do |reply|
+      entries << reply
+    end
+    entries.map(&:id).each_with_index do |e,i|
+      if i < entries.size
+        e.should be > e[i+1]
+      end
+    end
   end
 end
 

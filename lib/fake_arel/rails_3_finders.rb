@@ -59,7 +59,7 @@ module Rails3Finders
       end
       named_scope :or, __or_fn
 
-      def self.find_each(options = {:batch_size => 1000}, &block)
+      def self.fakearel_find_each(options = {:batch_size => 1000}, &block)
         count = self.scoped.count
         return self.scoped if count <= options[:batch_size]
         offset = 0
