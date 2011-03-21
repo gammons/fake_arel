@@ -9,7 +9,7 @@ require 'fake_arel/rails_3_finders'
 require 'fake_arel/calculations'
 
 module FakeArel
-  VERSION = '0.9.3'
+  VERSION = '0.9.4'
   ActiveRecord::Base.send :include, Rails3Finders
   ActiveRecord::Base.send :include, WithScopeReplacement
 end
