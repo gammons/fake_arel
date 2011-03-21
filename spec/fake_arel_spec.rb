@@ -187,6 +187,20 @@ describe "Fake Arel" do
     Reply.all.select {|r| r.id == 1 }.first.id.should == 1
     lambda { Reply.select(:id).first.content }.should raise_error(ActiveRecord::MissingAttributeError)
   end
+
+  it "should respond to batch_find" do
+    10.times {|i| Reply.create(:content => "This is reply number #{i}") }
+
+    count = 0
+    entries = []
+    Reply.where("content LIKE('This is reply number%')").find_each(:batch_size => 5) do |reply|
+      count += 1
+      reply.class.should == Reply
+      entries << reply
+    end
+    count.should == 10
+    entries.should == Reply.where("content LIKE('This is reply number%')")
+  end
 end
 
 describe "NameScope bug" do

@@ -58,6 +58,16 @@ module Rails3Finders
         scoped.where(where.join(" OR "))
       end
       named_scope :or, __or_fn
+
+      def self.find_each(options = {:batch_size => 1000}, &block)
+        count = self.scoped.count
+        return self.scoped if count <= options[:batch_size]
+        offset = 0
+        while offset < count
+          self.scoped(:limit => options[:batch_size], :offset => offset).each { |entry| yield entry }
+          offset += options[:batch_size]
+        end
+      end
     end
   end
 end
