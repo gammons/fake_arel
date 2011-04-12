@@ -205,6 +205,19 @@ describe "Fake Arel" do
     Reply.order("id desc").fakearel_find_each(:batch_size => 5) do |reply|
       entries << reply
     end
+
+    entries.map(&:id).each_with_index do |e,i|
+      if i < entries.size
+        e.should be > e[i+1]
+      end
+    end
+
+    # test jumping out and not batching
+    entries = []
+    Reply.order("id desc").fakearel_find_each do |reply|
+      entries << reply
+    end
+
     entries.map(&:id).each_with_index do |e,i|
       if i < entries.size
         e.should be > e[i+1]
