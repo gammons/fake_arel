@@ -61,7 +61,6 @@ module Rails3Finders
 
       def self.fakearel_find_each(options = {:batch_size => 1000}, &block)
         count = self.scoped({}).count
-        return self.scoped({}) if count <= options[:batch_size]
         offset = 0
         while offset < count
           self.scoped(:limit => options[:batch_size], :offset => offset).each { |entry| yield entry }
