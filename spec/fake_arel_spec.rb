@@ -224,6 +224,21 @@ describe "Fake Arel" do
       end
     end
   end
+
+  describe "fakearel_destroy" do
+    it "should destroy within a scope" do
+      $before_destroy_called = false
+      $after_destroy_called = false
+      replies = Reply.where(:id => [1,2])
+      replies.fakearel_destroy
+      Reply.where(:id => [1,2]).should == []
+      Reply.first.id.should == 3
+      $before_destroy_called.should == true
+      $after_destroy_called.should == true
+      $before_destroy_called = false
+      $after_destroy_called = false
+    end
+  end
 end
 
 describe "NameScope bug" do

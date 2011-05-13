@@ -67,6 +67,10 @@ module Rails3Finders
           offset += options[:batch_size]
         end
       end
+
+      def self.fakearel_destroy
+        self.destroy_all(:id => self.scoped({}).select(:id).map(&:id))
+      end
     end
   end
 end

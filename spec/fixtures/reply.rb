@@ -1,4 +1,6 @@
 class Reply < ActiveRecord::Base
+  attr_accessor :before_destroy_called, :after_destroy_called
+
   belongs_to :topic, :include => [:replies]
 
   named_scope :recent, where('replies.created_at > ?', 15.minutes.ago)
@@ -37,5 +39,13 @@ class Reply < ActiveRecord::Base
     with_scope(where('id > 1')) do
       self.all
     end
+  end
+
+  def before_destroy
+    $before_destroy_called = true
+  end
+
+  def after_destroy
+    $after_destroy_called = true
   end
 end
