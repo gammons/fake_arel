@@ -12,33 +12,34 @@ http://github.com/gammons/fake_arel
 
 ## SYNOPSIS:
 
-* All the finders described on Pratik's blog have been implemented. (http://m.onkey.org/2010/1/22/active-record-query-interface)
-
+* All the finders described on [Pratik's blog](http://m.onkey.org/2010/1/22/active-record-query-interface) have been implemented.
+<pre>
     Reply.where(:id => 1)
     Reply.select("content,id").where("id > 1").order("id desc").limit(1)
     Topic.joins(:replies).limit(1)
-
+</pre>
 * Additionally, named_scopes are very similar to Rails 3 relations, in that they are lazily loaded.
-
-    >> Reply.where(:name => "John").class
+<pre>
+    Reply.where(:name => "John").class
     ActiveRecord::NamedScope::Scope
-
+</pre>
 * Also implemented was `to_sql`. `to_sql` will work on any chained query. 
-    >> Topic.joins(:replies).limit(1).to_sql
+<pre>
+    Topic.joins(:replies).limit(1).to_sql
     "SELECT \"topics\".* FROM \"topics\"   INNER JOIN \"replies\" ON replies.topic_id = topics.id   LIMIT 1"
-
+</pre>
 * `named_scope` was modified to include other `named_scope`s, so you can chain them together. 
-
+<pre>
     class Reply < ActiveRecord::Base
       named_scope :by_john, where(:name => "John")
       named_scope :recent, lambda {|t| where("created_at > ? ", t.minutes.ago) }
       named_scope :recent_by_john, recent(15).by_john
     end
-
+</pre>
 ## Recently Added!
 
 * `or` syntax. Because named scopes load lazily, we're able to pass the scope to another scope, in this case, `or`.
-
+<pre>
     q1 = Reply.where(:id => 1)
     q2 = Reply.where(:id => 2)
     q3 = Reply.where(:id => 3)
@@ -50,20 +51,20 @@ http://github.com/gammons/fake_arel
     or1 = Reply.or(q1,q2)
     or2 = Reply.or(q3,q4)
     Reply.or(or1,or2).all.map(&:id) # equals [1,2,3,4]
-
+</pre>
 * `fakearel_find_each`
 The `find_each` that ships with ActiveRecord 2.x isn't very scope-friendly, thus using fakearel_find_each makes sense.  However I did not want to replace the original find_each functionality, just in case you were using it.
-
+<pre>
     Reply.where(:user_id => 1).fakearel_find_each do |reply|
       ...
     end
-
+</pre>
 * `fakearel_destroy`
 
 Call destroy on a scoped call.  This will run any callbacks on the models to be destroyed.
-
-  Reply.where(:user_id => 1).fakearel_destroy #will run before_destroy and after_destroy callbacks for affected Replys
-  
+<pre>
+    Reply.where(:user_id => 1).fakearel_destroy #will run before_destroy and after_destroy callbacks for affected Replys
+ </pre>
 
 
 ## REQUIREMENTS:
@@ -72,7 +73,7 @@ Call destroy on a scoped call.  This will run any callbacks on the models to be 
 
 ## INSTALL:
 
-* gem install fake_arel
+`gem install fake_arel`
 
 ## AUTHORS:
 
@@ -103,3 +104,4 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
