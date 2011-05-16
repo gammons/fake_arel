@@ -29,13 +29,13 @@ http://github.com/gammons/fake_arel
     "SELECT \"topics\".* FROM \"topics\"   INNER JOIN \"replies\" ON replies.topic_id = topics.id   LIMIT 1"
 </pre>
 * `named_scope` was modified to include other `named_scope`s, so you can chain them together. 
-<pre>
-class Reply < ActiveRecord::Base
-  named_scope :by_john, where(:name => "John")
-  named_scope :recent, lambda {|t| where("created_at > ? ", t.minutes.ago) }
-  named_scope :recent_by_john, recent(15).by_john
-end
-</pre>
+
+    class Reply < ActiveRecord::Base
+      named_scope :by_john, where(:name => "John")
+      named_scope :recent, lambda {|t| where("created_at > ? ", t.minutes.ago) }
+      named_scope :recent_by_john, recent(15).by_john
+    end
+
 ## Recently Added!
 
 * `or` syntax. Because named scopes load lazily, we're able to pass the scope to another scope, in this case, `or`.
