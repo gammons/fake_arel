@@ -1,8 +1,8 @@
-== Fake_arel: Rails 3 Query Interface for Rails 2
+## Fake_arel: Rails 3 Query Interface for Rails 2
 
 http://github.com/gammons/fake_arel
 
-== DESCRIPTION:
+## DESCRIPTION:
 
 * Tired of waiting for Rails 3 and its new super-sweet query interface? Try fake_arel!
 
@@ -10,7 +10,7 @@ http://github.com/gammons/fake_arel
 
 * This should serve as a nice bridge between Rails 2 and Rails 3 apps, and can be removed once upgrading your app to rails 3, and everything (hopefully) should still work.
 
-== SYNOPSIS:
+## SYNOPSIS:
 
 * All the finders described on Pratik's blog have been implemented. (http://m.onkey.org/2010/1/22/active-record-query-interface)
 
@@ -35,7 +35,7 @@ http://github.com/gammons/fake_arel
       named_scope :recent_by_john, recent(15).by_john
     end
 
-=== Recently Added!
+## Recently Added!
 
 * `or` syntax. Because named scopes load lazily, we're able to pass the scope to another scope, in this case, `or`.
 
@@ -66,20 +66,20 @@ Call destroy on a scoped call.  This will run any callbacks on the models to be 
   
 
 
-== REQUIREMENTS:
+## REQUIREMENTS:
 
 * >= ActiveRecord 2.3.5
 
-== INSTALL:
+## INSTALL:
 
 * gem install fake_arel
 
-== AUTHORS:
+## AUTHORS:
 
 * Grant Ammons
 * Sokolov Yura
 
-== LICENSE:
+## LICENSE:
 
 (The MIT License)
 
