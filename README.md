@@ -68,7 +68,7 @@ The `find_each` that ships with ActiveRecord 2.x isn't very scope-friendly, thus
 Reply.where(:user_id => 1).fakearel_find_each do |reply|
   ...
 end
-```ruby
+```
 
 * `fakearel_destroy`
 
@@ -76,7 +76,7 @@ Call destroy on a scoped call.  This will run any callbacks on the models to be 
 
 ```ruby
 Reply.where(:user_id => 1).fakearel_destroy #will run before_destroy and after_destroy callbacks for affected Replys
-```j
+```
 
 
 ## REQUIREMENTS:
