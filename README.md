@@ -12,7 +12,7 @@ http://github.com/gammons/fake_arel
 
 ## SYNOPSIS:
 
-* All the finders described on [Pratik's blog](http://m.onkey.org/2010/1/22/active-record-query-interface) have been implemented.
+* All the finders described on [Pratiks blog](http://m.onkey.org/2010/1/22/active-record-query-interface) have been implemented.
 <pre>
     Reply.where(:id => 1)
     Reply.select("content,id").where("id > 1").order("id desc").limit(1)
@@ -38,7 +38,7 @@ http://github.com/gammons/fake_arel
 
 ## Recently Added!
 
-* `or` syntax. Because named scopes load lazily, we're able to pass the scope to another scope, in this case, `or`.
+* `or` syntax. Because named scopes load lazily, we are able to pass the scope to another scope, in this case, `or`.
 <pre>
     q1 = Reply.where(:id => 1)
     q2 = Reply.where(:id => 2)
