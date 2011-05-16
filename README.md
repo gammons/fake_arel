@@ -43,9 +43,12 @@ class Reply < ActiveRecord::Base
 end
 ```
 
-## Recently Added!
+## Fakearel-specific items
+The following items are not necessarily implemented in Rails 3 arel, but they are pretty awesome.
 
-* `or` syntax. Because named scopes load lazily, we are able to pass the scope to another scope, in this case, `or`.
+### OR syntax
+Because named scopes load lazily, we are able to pass the scope to another scope, in this case, `or`.
+
 ```ruby
 q1 = Reply.where(:id => 1)
 q2 = Reply.where(:id => 2)
@@ -60,7 +63,7 @@ or2 = Reply.or(q3,q4)
 Reply.or(or1,or2).all.map(&:id) # equals [1,2,3,4]
 ```
 
-* `fakearel_find_each`
+### fakearel_find_each
 
 The `find_each` that ships with ActiveRecord 2.x isn't very scope-friendly, thus using fakearel_find_each makes sense.  However I did not want to replace the original find_each functionality, just in case you were using it.
 
@@ -70,14 +73,13 @@ Reply.where(:user_id => 1).fakearel_find_each do |reply|
 end
 ```
 
-* `fakearel_destroy`
+### fakearel_destroy
 
 Call destroy on a scoped call.  This will run any callbacks on the models to be destroyed.
 
 ```ruby
 Reply.where(:user_id => 1).fakearel_destroy #will run before_destroy and after_destroy callbacks for affected Replys
 ```
-
 
 ## REQUIREMENTS:
 
