@@ -51,6 +51,20 @@ http://github.com/gammons/fake_arel
     or2 = Reply.or(q3,q4)
     Reply.or(or1,or2).all.map(&:id) # equals [1,2,3,4]
 
+* <tt>fakearel_find_each</td>
+The <tt>find_each</td> that ships with ActiveRecord 2.x isn't very scope-friendly, thus using fakearel_find_each makes sense.  However I did not want to replace the original find_each functionality, just in case you were using it.
+
+    Reply.where(:user_id => 1).fakearel_find_each do |reply|
+      ...
+    end
+
+* <tt>fakearel_destroy</td>
+
+Call destroy on a scoped call.  This will run any callbacks on the models to be destroyed.
+
+  Reply.where(:user_id => 1).fakearel_destroy #will run before_destroy and after_destroy callbacks for affected Replys
+  
+
 
 == REQUIREMENTS:
 
