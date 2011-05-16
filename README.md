@@ -23,11 +23,11 @@ http://github.com/gammons/fake_arel
     >> Reply.where(:name => "John").class
     ActiveRecord::NamedScope::Scope
 
-* Also implemented was <tt>to_sql</tt>. <tt>to_sql</tt> will work on any chained query. 
+* Also implemented was `to_sql`. `to_sql` will work on any chained query. 
     >> Topic.joins(:replies).limit(1).to_sql
     "SELECT \"topics\".* FROM \"topics\"   INNER JOIN \"replies\" ON replies.topic_id = topics.id   LIMIT 1"
 
-* <tt>named_scope</tt> was modified to include other <tt>named_scope</tt>s, so you can chain them together. 
+* `named_scope` was modified to include other `named_scope`s, so you can chain them together. 
 
     class Reply < ActiveRecord::Base
       named_scope :by_john, where(:name => "John")
@@ -37,7 +37,7 @@ http://github.com/gammons/fake_arel
 
 === Recently Added!
 
-* <tt>or</tt> syntax. Because named scopes load lazily, we're able to pass the scope to another scope, in this case, <tr>or</tr>.
+* `or` syntax. Because named scopes load lazily, we're able to pass the scope to another scope, in this case, `or`.
 
     q1 = Reply.where(:id => 1)
     q2 = Reply.where(:id => 2)
@@ -51,14 +51,14 @@ http://github.com/gammons/fake_arel
     or2 = Reply.or(q3,q4)
     Reply.or(or1,or2).all.map(&:id) # equals [1,2,3,4]
 
-* <tt>fakearel_find_each</td>
-The <tt>find_each</td> that ships with ActiveRecord 2.x isn't very scope-friendly, thus using fakearel_find_each makes sense.  However I did not want to replace the original find_each functionality, just in case you were using it.
+* `fakearel_find_each`
+The `find_each` that ships with ActiveRecord 2.x isn't very scope-friendly, thus using fakearel_find_each makes sense.  However I did not want to replace the original find_each functionality, just in case you were using it.
 
     Reply.where(:user_id => 1).fakearel_find_each do |reply|
       ...
     end
 
-* <tt>fakearel_destroy</td>
+* `fakearel_destroy`
 
 Call destroy on a scoped call.  This will run any callbacks on the models to be destroyed.
 
