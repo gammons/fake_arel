@@ -30,11 +30,13 @@ http://github.com/gammons/fake_arel
 </pre>
 * `named_scope` was modified to include other `named_scope`s, so you can chain them together. 
 
+```ruby
     class Reply < ActiveRecord::Base
       named_scope :by_john, where(:name => "John")
       named_scope :recent, lambda {|t| where("created_at > ? ", t.minutes.ago) }
       named_scope :recent_by_john, recent(15).by_john
     end
+```
 
 ## Recently Added!
 
