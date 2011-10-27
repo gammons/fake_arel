@@ -10,7 +10,6 @@ require 'fake_arel/calculations'
 require 'fake_arel/selectable_includes'
 
 module FakeArel
-  VERSION = '0.9.9'
   ActiveRecord::Base.send :include, Rails3Finders
   ActiveRecord::Base.send :include, WithScopeReplacement
 end

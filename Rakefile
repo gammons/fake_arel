@@ -40,7 +40,8 @@ Rcov::RcovTask.new do |test|
   test.rcov_opts << '--exclude "gems/*"'
 end
 
-task :default => :test
+Dir['tasks/**/*.rake'].each { |t| load t }
+task :default => :spec
 
 require 'rake/rdoctask'
 Rake::RDocTask.new do |rdoc|

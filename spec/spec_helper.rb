@@ -11,9 +11,6 @@ require 'active_record/fixtures'
 require 'fake_arel'
 gem 'sqlite3-ruby'
 
-require 'ruby-debug'
-Debugger.start
-
 ActiveRecord::Base.establish_connection(:adapter => 'sqlite3', :database => 'spec/test.db')
 ActiveRecord::Base.logger = Logger.new(STDOUT) if $0 == 'irb'
 
