@@ -79,7 +79,7 @@ describe "Fake Arel" do
   it "should properly chain scope in definitions by lambda" do
     Reply.recent_topic_id(4).all.should == Reply.find_all_by_id(5)
   end
-    
+
   it "should properly chain order scope in definitions by lambda" do
     Reply.topic__id_asc(4).all.should == Reply.find(:all, :conditions => {:topic_id => 4}, :order=>'id asc')
     Reply.order('id desc').topic_id(4).all.should == Reply.find(:all, :conditions => {:topic_id => 4}, :order=>'id desc')
@@ -89,7 +89,7 @@ describe "Fake Arel" do
     Reply.topic__id_desc2(4).all.should == topic_4_id_desc
     Reply.topic__id_desc3(4).all.should == topic_4_id_desc
   end
-  
+
   it "should chain order scopes" do
     # see https://rails.lighthouseapp.com/projects/8994/tickets/2810-with_scope-should-accept-and-use-order-option
     # it works now in reverse order to comply with ActiveRecord 3
@@ -104,14 +104,14 @@ describe "Fake Arel" do
       end
     end.should == Reply.find(:all, :order=>'created_at desc, topic_id asc')
   end
-  
+
   it "should chain string join scope" do
     lambda {
       Topic.join_replies_by_string_and_author.all
       Topic.join_replies_by_string_and_author_lambda.all
     }.should_not raise_error
   end
-  
+
   it "should properly chain with includes" do
     topics = nil
     lambda {
@@ -174,7 +174,7 @@ describe "Fake Arel" do
     # an example using joins, as well as a query that returns nothing
     Reply.or(Reply.recent_joins_topic, Reply.topic_title_is("Nothin")).all.map(&:id).should == [5]
   end
-  
+
   it 'should be able to combine with "or", an empty named scope with another non-empty one' do
     q1 = Reply.where(:id => 0)
     q2 = Reply.where(:id => 2)
@@ -246,6 +246,13 @@ describe "NameScope bug" do
     it "should be equal to count(:group => '')" do
       Reply.group('replies.topic_id').count.should == Reply.count(:group => 'replies.topic_id')
     end
+  end
+end
+
+describe "using select with include" do
+  it "should be able to use select with include" do
+    Reply.create(:content => 'yeah', :topic_id => Topic.first)
+    Topic.includes(:replies).select("topics.id as super_topic_id").where("replies.content = 'yeah'").first.super_topic_id.should_not be_nil
   end
 end
 

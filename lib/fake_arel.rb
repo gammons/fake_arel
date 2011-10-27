@@ -7,6 +7,7 @@ require 'fake_arel/extensions'
 require 'fake_arel/with_scope_replacement'
 require 'fake_arel/rails_3_finders'
 require 'fake_arel/calculations'
+require 'fake_arel/selectable_includes'
 
 module FakeArel
   VERSION = '0.9.9'
