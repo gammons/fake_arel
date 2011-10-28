@@ -32,7 +32,7 @@ class Reply < ActiveRecord::Base
   named_scope :topic_id_asc, order('topic_id asc')
   named_scope :topic_id_asc_id_desc, order('topic_id asc').id_desc
   named_scope :lam_topic_id_asc_id_desc, lambda{ topic_id_asc.id_desc }
-  
+
   validates_presence_of :content
 
   def self.find_all_but_first

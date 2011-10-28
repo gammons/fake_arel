@@ -254,5 +254,10 @@ describe "using select with include" do
     Reply.create(:content => 'yeah', :topic_id => Topic.first)
     Topic.includes(:replies).select("topics.id as super_topic_id").where("replies.content = 'yeah'").first.super_topic_id.should_not be_nil
   end
+
+  it "should allow named scopes to use select and include together" do
+    Topic.select_only_id.all.map(&:super_duper_id).each {|t| t.should_not be_nil }
+    Topic.send(:select_only_id).all.map(&:super_duper_id).each {|t| t.should_not be_nil }
+  end
 end
 

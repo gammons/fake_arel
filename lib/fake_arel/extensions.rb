@@ -33,6 +33,7 @@ module ActiveRecord
         local_scope = proxy_scope
         ret = proxy_options
         while local_scope.class == ActiveRecord::NamedScope::Scope
+          ret[:select] = local_scope.proxy_options[:select] unless local_scope.proxy_options[:select].nil?
           local_conditions = merge_conditions(local_scope.proxy_options[:conditions])
           if local_conditions && ret[:conditions]
             if !ret[:conditions].index(local_conditions)
@@ -42,7 +43,14 @@ module ActiveRecord
             ret[:conditions] = local_conditions
           end
           ret[:include] = merge_includes(ret[:include], local_scope.proxy_options[:include])
-          ret[:joins] = merge_joins(ret[:joins], local_scope.proxy_options[:joins]) if ret[:joins] || local_scope.proxy_options[:joins]
+          if ret[:joins] || local_scope.proxy_options[:joins]
+            # this is a bit ugly, but I was getting error with using OR.
+            begin
+              ret[:joins] = merge_joins(ret[:joins], local_scope.proxy_options[:joins])
+            rescue ActiveRecord::ConfigurationError
+              ret[:joins] = merge_joins((ret[:joins] || []), (local_scope.proxy_options[:joins] || []))
+            end
+          end
           ret[:order] = [local_scope.proxy_options[:order], ret[:order]].select{|o| !o.blank?}.join(',') if ret[:order] || local_scope.proxy_options[:order]
           local_scope = local_scope.proxy_scope
         end
