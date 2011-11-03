@@ -21,6 +21,7 @@ module ActiveRecord
 
     class Scope
       undef select
+      undef from
 
       alias initialize_without_arel initialize
       def initialize(proxy_scope, options = {}, &block)
