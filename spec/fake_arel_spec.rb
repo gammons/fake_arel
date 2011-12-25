@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/spec_helper.rb'
+require 'spec_helper'
 require 'reply'
 require 'topic'
 require 'author'
@@ -69,6 +69,10 @@ describe "Fake Arel" do
     replies = Reply.where("id = 5").select(:id).all
     replies.size.should == 1
     replies[0].attributes.should == {"id" => 5}
+  end
+
+  it "should be able to group properly" do
+    Reply.group(:topic_id).map(&:topic_id).sort.should == [1, 2, 4].sort
   end
 
   it "should properly chain order scope in definitions" do
