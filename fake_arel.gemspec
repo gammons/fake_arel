@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fake_arel}
-  s.version = "1.0.0.a"
+  s.version = "1.0.0"
 
-  s.required_rubygems_version = Gem::Requirement.new("> 1.3.1") if s.respond_to? :required_rubygems_version=
+  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Grant Ammons"]
-  s.date = %q{2011-10-27}
+  s.date = %q{2012-04-03}
   s.description = %q{fake_arel will simulate rails 3 arel syntax for Rails 2.}
   s.email = %q{grant@pipelinedealsco.com}
   s.extra_rdoc_files = [
@@ -51,7 +51,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/gammons/fake_arel}
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.4.2}
+  s.rubygems_version = %q{1.6.2}
   s.summary = %q{fake_arel: a Rails 3 query interface to Rails 2}
 
   if s.respond_to? :specification_version then
