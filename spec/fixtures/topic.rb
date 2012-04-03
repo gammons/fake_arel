@@ -15,4 +15,5 @@ class Topic < ActiveRecord::Base
   named_scope :join_replies_by_string_and_author, join_replies_by_string.joins(:author)
   named_scope :join_replies_by_string_and_author_lambda, join_replies_by_string.joins(:author)
   named_scope :select_only_id, select('id as super_duper_id').includes(:replies)
+  named_scope :first_four_sorted_by_date, order('id ASC').order('created_at DESC').limit(4)
 end
