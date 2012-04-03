@@ -48,6 +48,12 @@ describe "Fake Arel" do
     sql.should =~ /"topic_id" = 4/
     sql.should =~ /ORDER BY id desc/i
   end
+
+  it "should generate same sql always" do
+    first_sql = Topic.first_four_sorted_by_date.to_sql
+    second_sql = Topic.first_four_sorted_by_date.to_sql
+    first_sql.should == second_sql
+  end
   it "should not dublication conditions" do
     sql = Topic.select('content').joins(:replies).limit(1).order('id desc').where(:author_id => 1).to_sql
     sql.should_not =~ /"author_id" = 1.+"author_id" = 1/
