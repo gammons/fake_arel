@@ -37,7 +37,7 @@ module ActiveRecord
           ret[:select] = local_scope.proxy_options[:select] unless local_scope.proxy_options[:select].nil?
           local_conditions = merge_conditions(local_scope.proxy_options[:conditions])
           if local_conditions && ret[:conditions]
-            if !ret[:conditions].index(local_conditions)
+            if (ret[:conditions].class == Hash and !ret[:conditions].keys.include?(local_conditions)) or (ret[:conditions].class != Hash and !ret[:conditions].index(local_conditions))
               ret[:conditions] = merge_conditions(ret[:conditions], local_scope.proxy_options[:conditions])
             end
           elsif local_conditions
