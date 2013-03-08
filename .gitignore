@@ -1,3 +1,4 @@
 .rspec
 pkg
 spec/test.db
+.rbenv-version
