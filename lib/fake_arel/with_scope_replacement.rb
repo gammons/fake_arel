@@ -37,6 +37,8 @@ module WithScopeReplacement
                         else
                           hash[method][key] = merge_conditions(params[key], hash[method][key])
                         end
+                      elsif key == :select && merge
+                        hash[method][key] = merge_includes(hash[method][key], params[key]).uniq.join(', ')
                       elsif key == :include && merge
                         hash[method][key] = merge_includes(hash[method][key], params[key]).uniq
                       elsif key == :joins && merge

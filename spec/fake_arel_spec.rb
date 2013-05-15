@@ -257,6 +257,14 @@ describe "NameScope bug" do
       Reply.group('replies.topic_id').count.should == Reply.count(:group => 'replies.topic_id')
     end
   end
+
+  context "using multiple select statements" do
+    it "should respect multiple select statements" do
+      topics = Topic.select("distinct(topics.id)").select("topics.title as topic_title").first
+      topics.topic_title.should_not be_nil
+      topics.id.should_not be_nil
+    end
+  end
 end
 
 describe "using select with include" do
