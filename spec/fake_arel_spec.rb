@@ -51,9 +51,16 @@ describe "Fake Arel" do
     end
 
     it "should includes includes when including included includes" do
-      sql = Topic.includes(:replies, :author).where("replies.id = 1").to_sql
+      sql = Topic.includes(:replies).includes(:author).where("replies.id = 1").to_sql
       p sql
       sql.should =~ /JOIN "replies"/i
+      sql.should =~ /JOIN "authors"/i
+    end
+
+    it "should only include the selects we select" do
+     sql = Topic.select("topics.id").includes(:replies).where("replies.id = 1").to_sql
+     sql.should =~ /SELECT topics.id/
+
     end
   end
 

@@ -3,8 +3,22 @@ module WithScopeReplacement
     base.class_eval do
       class << self
         def to_sql
-          jd = JoinDependency.new(self, merge_includes(scope(:find, :include), nil), nil)
-          construct_finder_sql_with_included_associations(current_scoped_methods, jd)
+          options = current_scoped_methods
+          join_dependency = JoinDependency.new(self, merge_includes(scope(:find, :include), nil), nil)
+          scope = scope(:find)
+          sql  = "SELECT #{(scope && scope[:select]) || default_select(options[:joins] || (scope && scope[:joins]))} "
+          sql << join_dependency.join_associations.collect{|join| join.association_join }.join
+
+          add_joins!(sql, options[:joins], scope)
+          add_conditions!(sql, options[:conditions], scope)
+          add_limited_ids_condition!(sql, options, join_dependency) if !using_limitable_reflections?(join_dependency.reflections) && ((scope && scope[:limit]) || options[:limit])
+
+          add_group!(sql, options[:group], options[:having], scope)
+          add_order!(sql, options[:order], scope)
+          add_limit!(sql, options, scope) if using_limitable_reflections?(join_dependency.reflections)
+          add_lock!(sql, options, scope)
+
+          return sanitize_sql(sql)
         end
         
         def with_scope(method_scoping = {}, action = :merge, &block)
