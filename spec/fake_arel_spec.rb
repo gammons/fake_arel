@@ -37,16 +37,24 @@ describe "Fake Arel" do
     Reply.find_all_but_first.map(&:id).should == [2,3,4,5,6]
   end
 
-  it "should be able to output sql" do
-    sql = Topic.select('content').joins(:replies).limit(1).order('id desc').where(:author_id => 1).to_sql
-    sql.should =~ /SELECT content/i
-    sql.should =~ /JOIN "replies"/i
-    sql.should =~ /"author_id" = 1/
-    sql.should =~ /LIMIT 1/i
-    sql.should =~ /ORDER BY id desc/i
-    sql = Reply.topic_4_id_desc.to_sql
-    sql.should =~ /"topic_id" = 4/
-    sql.should =~ /ORDER BY id desc/i
+  describe ".to_sql" do
+    it "should be able to output sql" do
+      sql = Topic.select('content').joins(:replies).limit(1).order('id desc').where(:author_id => 1).to_sql
+      sql.should =~ /SELECT content/i
+      sql.should =~ /JOIN "replies"/i
+      sql.should =~ /"author_id" = 1/
+      sql.should =~ /LIMIT 1/i
+      sql.should =~ /ORDER BY id desc/i
+      sql = Reply.topic_4_id_desc.to_sql
+      sql.should =~ /"topic_id" = 4/
+      sql.should =~ /ORDER BY id desc/i
+    end
+
+    it "should includes includes when including included includes" do
+      sql = Topic.includes(:replies, :author).where("replies.id = 1").to_sql
+      p sql
+      sql.should =~ /JOIN "replies"/i
+    end
   end
 
   it "should generate same sql always" do

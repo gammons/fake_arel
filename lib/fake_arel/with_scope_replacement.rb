@@ -3,7 +3,8 @@ module WithScopeReplacement
     base.class_eval do
       class << self
         def to_sql
-          construct_finder_sql({})
+          jd = JoinDependency.new(self, merge_includes(scope(:find, :include), nil), nil)
+          construct_finder_sql_with_included_associations(current_scoped_methods, jd)
         end
         
         def with_scope(method_scoping = {}, action = :merge, &block)
