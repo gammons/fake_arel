@@ -59,8 +59,8 @@ describe "Fake Arel" do
 
     it "should only include the selects we select" do
      sql = Topic.select("topics.id").includes(:replies).where("replies.id = 1").to_sql
+     sql.should =~ /FROM "topics"/
      sql.should =~ /SELECT topics.id/
-
     end
   end
 

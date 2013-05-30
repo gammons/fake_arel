@@ -7,6 +7,7 @@ module WithScopeReplacement
           join_dependency = JoinDependency.new(self, merge_includes(scope(:find, :include), nil), nil)
           scope = scope(:find)
           sql  = "SELECT #{(scope && scope[:select]) || default_select(options[:joins] || (scope && scope[:joins]))} "
+          sql << "FROM #{(scope && scope[:from]) || quoted_table_name} "
           sql << join_dependency.join_associations.collect{|join| join.association_join }.join
 
           add_joins!(sql, options[:joins], scope)
