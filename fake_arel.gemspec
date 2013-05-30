@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fake_arel}
-  s.version = "1.2.0"
+  s.version = "1.3.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Grant Ammons"]
-  s.date = %q{2013-05-15}
+  s.date = %q{2013-05-30}
   s.description = %q{fake_arel will simulate rails 3 arel syntax for Rails 2.}
   s.email = %q{grant@pipelinedealsco.com}
   s.extra_rdoc_files = [
