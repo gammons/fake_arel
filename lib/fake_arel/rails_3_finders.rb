@@ -41,9 +41,10 @@ module Rails3Finders
         # for some reason, flatten is actually executing the scope
         scopes = scopes[0] if scopes.size == 1
         scopes.each do |s|
+          scope = s.proxy_scope
           s = s.proxy_options
           begin
-            where << merge_conditions(s[:conditions])
+            where << scope.merge_conditions(s[:conditions])
           rescue NoMethodError
             # I am ActiveRecord::Base. Only my subclasses define merge_conditions:
             where << subclasses.first.merge_conditions(s[:conditions])

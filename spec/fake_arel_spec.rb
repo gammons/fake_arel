@@ -206,6 +206,12 @@ describe "Fake Arel" do
     Reply.or(q1,q2).all.map(&:id).should == [2]
   end
 
+  it 'should be able to combine with "or" a different class' do
+    q1 = Author.where(:id => 0)
+    q2 = Author.where(:id => 1)
+    Author.or(q1,q2).all.map(&:id).should == [1]
+  end
+
   it "should use select like rails 3 uses select" do
     lambda { Reply.all.select {|r| r.id == 1 }}.should_not raise_error
     Reply.all.select {|r| r.id == 1 }.size.should == 1
