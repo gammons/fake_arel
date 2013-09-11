@@ -52,6 +52,7 @@ module ActiveRecord
               ret[:joins] = merge_joins((ret[:joins] || []), (local_scope.proxy_options[:joins] || []))
             end
           end
+
           local_proxy_order_options = local_scope.proxy_options[:order].split(',') unless local_scope.proxy_options[:order].nil?
           ret_order_options = ret[:order].split(',') unless ret[:order].nil?
           ret[:order] = [local_proxy_order_options, ret_order_options].flatten.uniq.select{|o| !o.blank?}.join(',') if ret[:order] || local_scope.proxy_options[:order]

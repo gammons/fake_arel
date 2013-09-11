@@ -55,6 +55,8 @@ module WithScopeReplacement
                         end
                       elsif key == :select && merge
                         hash[method][key] = merge_includes(hash[method][key], params[key]).uniq.join(', ')
+                      elsif key == :readonly
+                        hash[method][key] = params[key] unless params[:readonly].nil?
                       elsif key == :include && merge
                         hash[method][key] = merge_includes(hash[method][key], params[key]).uniq
                       elsif key == :joins && merge

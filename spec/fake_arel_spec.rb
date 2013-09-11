@@ -293,3 +293,9 @@ describe "using select with include" do
   end
 end
 
+describe "#readonly" do
+  it "should ensure records do not come back as readonly" do
+    Topic.joins(:replies).readonly(false).first.readonly?.should be_false
+  end
+end
+
