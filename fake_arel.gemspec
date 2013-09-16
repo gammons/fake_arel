@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fake_arel}
-  s.version = "1.3.3"
+  s.version = "1.3.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Grant Ammons"]
-  s.date = %q{2013-09-11}
+  s.date = %q{2013-09-16}
   s.description = %q{fake_arel will simulate rails 3 arel syntax for Rails 2.}
   s.email = %q{grant@pipelinedealsco.com}
   s.extra_rdoc_files = [
@@ -62,7 +62,8 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<bundler>, [">= 0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.6.4"])
       s.add_development_dependency(%q<rcov>, [">= 0"])
-      s.add_development_dependency(%q<debugger>, [">= 0"])
+      s.add_development_dependency(%q<ruby-debug>, [">= 0"])
+      s.add_development_dependency(%q<pry>, [">= 0"])
       s.add_development_dependency(%q<rspec>, ["= 1.3.1"])
       s.add_development_dependency(%q<sqlite3-ruby>, [">= 0"])
     else
@@ -70,7 +71,8 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<bundler>, [">= 0"])
       s.add_dependency(%q<jeweler>, ["~> 1.6.4"])
       s.add_dependency(%q<rcov>, [">= 0"])
-      s.add_dependency(%q<debugger>, [">= 0"])
+      s.add_dependency(%q<ruby-debug>, [">= 0"])
+      s.add_dependency(%q<pry>, [">= 0"])
       s.add_dependency(%q<rspec>, ["= 1.3.1"])
       s.add_dependency(%q<sqlite3-ruby>, [">= 0"])
     end
@@ -79,7 +81,8 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<bundler>, [">= 0"])
     s.add_dependency(%q<jeweler>, ["~> 1.6.4"])
     s.add_dependency(%q<rcov>, [">= 0"])
-    s.add_dependency(%q<debugger>, [">= 0"])
+    s.add_dependency(%q<ruby-debug>, [">= 0"])
+    s.add_dependency(%q<pry>, [">= 0"])
     s.add_dependency(%q<rspec>, ["= 1.3.1"])
     s.add_dependency(%q<sqlite3-ruby>, [">= 0"])
   end
