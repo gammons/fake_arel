@@ -11,7 +11,8 @@ group :development do
   gem "jeweler", "~> 1.6.4"
   gem "rcov", ">= 0"
 
-  gem 'debugger', :platform => :ruby_19
+  gem 'debugger', :platform => :ruby_18
+  gem 'pry', :platform => :ruby_19
   gem 'rspec', '1.3.1'
   gem "sqlite3-ruby"
 end
