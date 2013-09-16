@@ -299,3 +299,8 @@ describe "#readonly" do
   end
 end
 
+describe "from" do
+  it "does the right thing with from" do
+    Topic.from("topics").first.should eql(Topic.all.first)
+  end
+end

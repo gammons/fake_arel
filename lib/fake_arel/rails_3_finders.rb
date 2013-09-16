@@ -9,7 +9,7 @@ module Rails3Finders
       named_scope :includes, lambda { |*includes| { :include => includes }}
       named_scope :order, lambda {|*order| {:order => order.flatten.join(',') }}
       named_scope :joins, lambda {|*join| {:joins => join } if join[0]}
-      named_scope :from, lambda {|*from| {:from => from }}
+      named_scope :from, lambda {|*from| {:from => from.flatten.join(',') }}
       named_scope :having, lambda {|*having| {:having => having }}
       named_scope :group, lambda {|*group| {:group => group.flatten.join(',') }}
       named_scope :readonly, lambda {|readonly| {:readonly => readonly }}
