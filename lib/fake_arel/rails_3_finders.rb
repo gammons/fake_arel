@@ -71,6 +71,25 @@ module Rails3Finders
       def self.fakearel_destroy
         self.destroy_all(:id => self.scoped({}).select(:id).map(&:id))
       end
+
+      # allow defining scopes Rails 3 style (scope, not named_scope)
+      # scope is still a Rails 2 method, so we have to call the correct method
+      # depending on the argument types
+      def self.scope_with_named_scope(*args, &block)
+        if args.length == 2
+          case args[1]
+            when String, Symbol
+              scope_without_named_scope(*args)
+            else
+              named_scope *args, &block
+          end
+        else
+          scope_without_named_scope(*args)
+        end
+      end
+      class << self
+        alias_method_chain :scope, :named_scope
+      end
     end
   end
 end
