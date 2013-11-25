@@ -17,6 +17,11 @@ module ActiveRecord
           scopes[name].call(self, *args)
         end
       end
+
+      # make all arguments optional, like Rails 3
+      def scoped(scope = {}, &block)
+        ActiveRecord::NamedScope::Scope.new(self, scope, &block)
+      end
     end
 
     class Scope

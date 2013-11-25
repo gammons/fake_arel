@@ -95,6 +95,18 @@ describe "Fake Arel" do
     Reply.group(:topic_id).map(&:topic_id).sort.should == [1, 2, 4].sort
   end
 
+  it "should support pluck" do
+    Reply.where(:id => 5).pluck(:id).should == [5]
+  end
+
+  it "should support reorder" do
+    Reply.where(:id => [4, 5]).order("id DESC").reorder("id").pluck(:id).should == [4, 5]
+  end
+
+  it "should support except" do
+    Reply.select(:id).except(:select).first.created_at.should_not == nil
+  end
+
   it "should properly chain order scope in definitions" do
     Reply.topic_4_id_asc.all.should == Reply.find(:all, :conditions => {:topic_id => 4}, :order=>'id asc')
     Reply.topic_4_id_desc.all.should == Reply.find(:all, :conditions => {:topic_id => 4}, :order=>'id desc')

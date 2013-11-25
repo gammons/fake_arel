@@ -59,6 +59,32 @@ module Rails3Finders
       end
       named_scope :or, __or_fn
 
+      # returns a new scope, having removed the options mentioned
+      # does *not* support extended scopes
+      def self.except(*options)
+        # include is renamed to includes in Rails 3
+        includes = options.delete(:includes)
+        options << :include if includes
+  
+        new_options = (scope(:find) || {}).reject { |k, v| options.include?(k) }
+        with_exclusive_scope(:find => new_options) { scoped }
+      end
+  
+      # returns a new scope, with just the order replaced
+      # does *not* support extended scopes
+      def self.reorder(*order)
+        new_options = (scope(:find) || {}).dup
+        new_options[:order] = order.flatten.join(',')
+        with_exclusive_scope(:find =>new_options) { scoped }
+      end
+    
+      def self.pluck(column)
+        new_options = (scope(:find) || {}).dup
+        new_options[:select] = "#{quoted_table_name}.#{column}"
+        new_options.delete(:include)
+        with_exclusive_scope(:find => new_options) { all.map(&column) }
+      end
+
       def self.fakearel_find_each(options = {:batch_size => 1000}, &block)
         count = self.scoped({}).count
         offset = 0
