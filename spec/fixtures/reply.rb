@@ -3,9 +3,9 @@ class Reply < ActiveRecord::Base
 
   belongs_to :topic, :include => [:replies]
 
-  named_scope :recent, where('replies.created_at > ?', 15.minutes.ago)
-  named_scope :recent_two_wheres, where('replies.created_at > ?', 15.minutes.ago).where(:id => 5)
-  named_scope :recent_limit_1, where('replies.created_at > ?', 15.minutes.ago).limit(1)
+  named_scope :recent, where('replies.created_at > ?', 15.minutes.ago.utc.to_s(:db))
+  named_scope :recent_two_wheres, where('replies.created_at > ?', 15.minutes.ago.utc.to_s(:db)).where(:id => 5)
+  named_scope :recent_limit_1, where('replies.created_at > ?', 15.minutes.ago.utc.to_s(:db)).limit(1)
   named_scope :recent_with_content_like_ar, recent.where('lower(replies.content) like ?', "AR%")
   named_scope :recent_with_content_like_ar_and_id_4, recent.where('lower(replies.content) like ?', "AR%").where("id = 4")
   named_scope :recent_joins_topic, recent.joins(:topic)
