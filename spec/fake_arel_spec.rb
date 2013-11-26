@@ -156,6 +156,10 @@ describe "Fake Arel" do
     }
   end
 
+  it "should properly chain with group" do
+    Topic.group(:john).group(:doe).scope(:find, :group).should == 'john, doe'
+  end
+
   it "should respond to scoped" do
     Reply.scoped({}).class.should == ActiveRecord::NamedScope::Scope
   end
