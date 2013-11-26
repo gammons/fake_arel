@@ -13,7 +13,7 @@ module Rails3Finders
       named_scope :having, lambda {|*having| {:having => having }}
       named_scope :group, lambda {|*group| {:group => group.flatten.join(',') }}
       named_scope :readonly, lambda {|readonly| {:readonly => readonly }}
-      named_scope :lock, lambda {|lock| {:lock => lock }}
+      named_scope :lock, lambda {|*lock| lock = [true] if lock.empty?; {:lock => lock.first }}
 
       def self.select(value = Proc.new)
         if block_given?
