@@ -2,3 +2,4 @@
 pkg
 spec/test.db
 .rbenv-version
+.ruby-version
