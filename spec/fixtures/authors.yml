@@ -1,5 +1,5 @@
 john:
   id: 1
   name: John
-  created_at: <%= 1.day.ago.to_s(:db) %>
+  created_at: <%= 1.day.ago.utc.iso8601 %>
   updated_at:
