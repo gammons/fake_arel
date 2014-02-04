@@ -63,7 +63,7 @@ module WithScopeReplacement
                         hash[method][key] = merge_joins(params[key], hash[method][key])
                       # see https://rails.lighthouseapp.com/projects/8994/tickets/2810-with_scope-should-accept-and-use-order-option
                       # it works now in reverse order to comply with ActiveRecord 3
-                      elsif key == :order && merge && !default_scoping.any?{ |s| s[method].keys.include?(key) }
+                      elsif [:group, :order].include?(key) && merge && !default_scoping.any?{ |s| s[method].keys.include?(key) }
                         hash[method][key] = [hash[method][key], params[key]].select{|o| !o.blank?}.join(', ')
                       else
                         hash[method][key] = hash[method][key] || params[key]
