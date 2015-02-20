@@ -1,6 +1,11 @@
 module ActiveRecord
   module NamedScope
     module ClassMethods
+
+      def scoping(&block)
+        scoped(&block)
+      end
+
       def named_scope(name, options = {}, &block)
         name = name.to_sym
 

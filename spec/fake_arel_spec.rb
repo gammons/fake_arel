@@ -326,3 +326,13 @@ describe "from" do
     Topic.from("topics").first.should eql(Topic.all.first)
   end
 end
+
+describe "scoped" do
+  it "uses the scoped method" do
+    Topic.where(id: [2, 3]).scoping do
+      Topic.where(id: 2).scoping do
+        Topic.all.map(&:id).should == [2]
+      end
+    end
+  end
+end
