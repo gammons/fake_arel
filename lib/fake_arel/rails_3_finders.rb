@@ -66,11 +66,11 @@ module Rails3Finders
         # include is renamed to includes in Rails 3
         includes = options.delete(:includes)
         options << :include if includes
-  
+
         new_options = (scope(:find) || {}).reject { |k, v| options.include?(k) }
         with_exclusive_scope(:find => new_options) { scoped }
       end
-  
+
       # returns a new scope, with just the order replaced
       # does *not* support extended scopes
       def self.reorder(*order)
@@ -78,7 +78,7 @@ module Rails3Finders
         new_options[:order] = order.flatten.join(',')
         with_exclusive_scope(:find =>new_options) { scoped }
       end
-    
+
       def self.pluck(column)
         new_options = (scope(:find) || {}).dup
         new_options[:select] = "#{quoted_table_name}.#{column}"

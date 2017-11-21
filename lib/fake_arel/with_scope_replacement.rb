@@ -21,7 +21,7 @@ module WithScopeReplacement
 
           return sanitize_sql(sql)
         end
-        
+
         def with_scope(method_scoping = {}, action = :merge, &block)
           method_scoping = {:find => method_scoping.proxy_options} if method_scoping.class == ActiveRecord::NamedScope::Scope
           method_scoping = method_scoping.method_scoping if method_scoping.respond_to?(:method_scoping)
