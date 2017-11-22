@@ -3,13 +3,13 @@ witty_retort:
   topic_id: 1
   content: Birdman is better!
   created_at: <%= 6.hours.ago.utc.iso8601 %>
-  
+
 another:
   id: 2
   topic_id: 2
   content: Nuh uh!
   created_at: <%= 1.hour.ago.utc.iso8601 %>
-  
+
 spam:
   id: 3
   topic_id: 1
@@ -20,7 +20,7 @@ decisive:
   id: 4
   topic_id: 4
   content: "I'm getting to the bottom of this"
-  created_at: <%= 30.minutes.ago.localtime.iso8601 %>
+  created_at: <%= 30.minutes.ago.utc.iso8601 %>
 
 brave:
   id: 5

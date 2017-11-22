@@ -329,10 +329,9 @@ end
 
 describe "scoped" do
   it "uses the scoped method" do
-    Topic.where(id: [2, 3]).scoping do
-      Topic.where(id: 2).scoping do
-        Topic.all.map(&:id).should == [2]
-      end
+    Topic.where(id: 2).scoped do
+      Topic.all.size.should == 1
+      Topic.all.map(&:id).should == [2]
     end
   end
 end
